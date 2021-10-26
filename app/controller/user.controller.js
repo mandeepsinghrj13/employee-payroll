@@ -2,6 +2,11 @@ const { createUser, getEmail, getUsers, getUserByUserId, updateUser, deleteUser 
 const { compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 module.exports = {
+  /**
+   * create user for emp-payroll
+   * @param {*} req
+   * @param {*} res
+   */
   createUser: (req, res) => {
     const body = req.body;
     createUser(body, (err, results) => {
@@ -18,6 +23,11 @@ module.exports = {
       });
     });
   },
+  /**
+   * login using email and password
+   * @param {*} req
+   * @param {*} res
+   */
   login: (req, res) => {
     const body = req.body;
     getEmail(body.email, (err, results) => {
@@ -32,7 +42,6 @@ module.exports = {
       }
       const result = compareSync(body.password, results.password);
       if (result) {
-        results.password = undefined;
         const jsontoken = sign({ result: results }, "qwe1234", {
           expiresIn: "2h",
         });
@@ -49,6 +58,11 @@ module.exports = {
       }
     });
   },
+  /**
+   * getAllUser from database
+   * @param {*} req
+   * @param {*} res
+   */
   getAllUsers: (req, res) => {
     getUsers((err, results) => {
       if (err) {
@@ -61,6 +75,11 @@ module.exports = {
       });
     });
   },
+  /**
+   * get data using Id
+   * @param {*} req
+   * @param {*} res
+   */
   getUserByUserId: (req, res) => {
     const id = req.params.id;
     getUserByUserId(id, (err, results) => {
@@ -80,6 +99,11 @@ module.exports = {
       });
     });
   },
+  /**
+   * updateUser using id
+   * @param {*} req
+   * @param {*} res
+   */
   updateUsers: (req, res) => {
     const body = req.body;
     updateUser(body, (err, results) => {
@@ -99,6 +123,11 @@ module.exports = {
       });
     });
   },
+  /**
+   * deleteUser by id
+   * @param {*} req
+   * @param {*} res
+   */
   deleteUser: (req, res) => {
     const data = req.body;
     deleteUser(data, (err, results) => {

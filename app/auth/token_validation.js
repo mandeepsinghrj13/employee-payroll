@@ -1,5 +1,12 @@
 const { verify } = require("jsonwebtoken");
 module.exports = {
+  /**
+   * checkToken verify
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns
+   */
   checkToken: (req, res, next) => {
     let token = req.get("authorization");
     if (token) {
