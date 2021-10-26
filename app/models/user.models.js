@@ -42,4 +42,16 @@ module.exports = {
       return callBack(null, results[0]);
     });
   },
+  updateUser: (data, callBack) => {
+    pool.query(
+      `update payrolltable set email=?, password=? where id = ?`,
+      [data.email, data.password, data.id],
+      (error, results, fields) => {
+        if (error) {
+          callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };

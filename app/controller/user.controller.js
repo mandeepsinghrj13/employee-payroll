@@ -1,4 +1,4 @@
-const { createUser, getEmail, getUsers, getUserByUserId } = require("../service/user.service");
+const { createUser, getEmail, getUsers, getUserByUserId, updateUser } = require("../service/user.service");
 const { compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 module.exports = {
@@ -77,6 +77,25 @@ module.exports = {
       return res.json({
         success: 1,
         data: results,
+      });
+    });
+  },
+  updateUsers: (req, res) => {
+    const body = req.body;
+    updateUser(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "You Passing Duplicate Email",
+        });
+      }
+      return res.json({
+        success: 1,
+        message: "updated successfully",
       });
     });
   },
