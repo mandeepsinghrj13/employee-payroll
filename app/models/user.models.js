@@ -26,4 +26,12 @@ module.exports = {
       return callBack(null, results[0]);
     });
   },
+  getAllUsers: (callBack) => {
+    pool.query(`select id,email from payrolltable`, [], (error, results, fields) => {
+      if (error) {
+        callBack(error);
+      }
+      return callBack(null, results);
+    });
+  },
 };

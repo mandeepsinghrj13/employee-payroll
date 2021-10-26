@@ -1,4 +1,4 @@
-const { createUser, getEmail } = require("../service/user.service");
+const { createUser, getEmail, getUsers } = require("../service/user.service");
 const { compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 module.exports = {
@@ -47,6 +47,18 @@ module.exports = {
           data: "Invalid email or password",
         });
       }
+    });
+  },
+  getAllUsers: (req, res) => {
+    getUsers((err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      return res.json({
+        success: 1,
+        data: results,
+      });
     });
   },
 };
