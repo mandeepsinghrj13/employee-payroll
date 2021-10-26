@@ -34,4 +34,12 @@ module.exports = {
       return callBack(null, results);
     });
   },
+  getUserByUserId: (id, callBack) => {
+    pool.query(`select id,email from payrolltable where id = ?`, [id], (error, results, fields) => {
+      if (error) {
+        callBack(error);
+      }
+      return callBack(null, results[0]);
+    });
+  },
 };
