@@ -1,4 +1,4 @@
-const { createUser, getEmail, getUsers, getUserByUserId, updateUser } = require("../service/user.service");
+const { createUser, getEmail, getUsers, getUserByUserId, updateUser, deleteUser } = require("../service/user.service");
 const { compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 module.exports = {
@@ -96,6 +96,25 @@ module.exports = {
       return res.json({
         success: 1,
         message: "updated successfully",
+      });
+    });
+  },
+  deleteUser: (req, res) => {
+    const data = req.body;
+    deleteUser(data, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (results.affectedRows == 0) {
+        return res.json({
+          success: 0,
+          message: "Id Not Found",
+        });
+      }
+      return res.json({
+        success: 1,
+        message: "user deleted successfully",
       });
     });
   },
