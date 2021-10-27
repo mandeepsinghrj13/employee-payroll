@@ -11,7 +11,7 @@ module.exports = {
     let token = req.get("authorization");
     if (token) {
       token = token.slice(7);
-      verify(token, "qwe1234", (err, decoded) => {
+      verify(token, process.env.TOCKEN, (err, decoded) => {
         if (err) {
           return res.json({
             success: 0,

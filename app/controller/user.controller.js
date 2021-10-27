@@ -1,4 +1,12 @@
-const { createUser, getEmail, getUsers, getUserByUserId, updateUser, deleteUser } = require("../service/user.service");
+const {
+  createUser,
+  getEmail,
+  getUsers,
+  getUserByUserId,
+  updateUser,
+  deleteUser,
+  createEmployee,
+} = require("../service/user.service");
 const { compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 module.exports = {
@@ -42,7 +50,7 @@ module.exports = {
       }
       const result = compareSync(body.password, results.password);
       if (result) {
-        const jsontoken = sign({ result: results }, "qwe1234", {
+        const jsontoken = sign({ result: results }, process.env.TOCKEN, {
           expiresIn: "2h",
         });
         return res.json({
@@ -56,6 +64,22 @@ module.exports = {
           data: "Invalid email or password",
         });
       }
+    });
+  },
+  createEmployee: (req, res) => {
+    const body = req.body;
+    createEmployee(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: 0,
+          message: err,
+        });
+      }
+      return res.status(200).json({
+        success: 1,
+        data: results,
+      });
     });
   },
   /**

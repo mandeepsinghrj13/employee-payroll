@@ -1,4 +1,12 @@
-const { createUser, login, getAllUsers, getUserByUserId, updateUsers, deleteUser } = require("../controller/user.controller");
+const {
+  createUser,
+  login,
+  getAllUsers,
+  getUserByUserId,
+  updateUsers,
+  deleteUser,
+  createEmployee,
+} = require("../controller/user.controller");
 const router = require("express").Router();
 const { checkToken } = require("../auth/token_validation");
 
@@ -6,6 +14,8 @@ const { checkToken } = require("../auth/token_validation");
 router.post("/register", checkToken, createUser);
 //post method using for login
 router.post("/login", login);
+//post method using for createEmployee
+router.post("/cteateEmployee", checkToken, createEmployee);
 //get method using for getall data
 router.get("/getall", checkToken, getAllUsers);
 //get method using for getbyid

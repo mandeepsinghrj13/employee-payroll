@@ -32,6 +32,24 @@ module.exports = {
       return callBack(null, results[0]);
     });
   },
+  createEmployee: (data, callBack) => {
+    pool.query(
+      `insert into payrolltable(email, password,firstName,lastName,designation,joningdate) values(?,?,?,?,?,?)`,
+      [data.email, data.password, data.firstName, data.lastName, data.designation, data.joningdate],
+      (error, results, fields) => {
+        if (error) {
+          if (error.code === "ER_DUP_ENTRY") {
+            let err = "user already there";
+            return callBack(err, null);
+          } else {
+            return callBack(error, null);
+          }
+        } else {
+          return callBack(null, results);
+        }
+      }
+    );
+  },
   /**
    * getAllUsers
    * @param {*} callBack

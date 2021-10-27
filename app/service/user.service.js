@@ -1,4 +1,4 @@
-const { create, login, getAllUsers, getUserByUserId, updateUser, deleteUser } = require("../models/user.models");
+const { create, login, getAllUsers, getUserByUserId, updateUser, deleteUser, createEmployee } = require("../models/user.models");
 const { genSaltSync, hashSync } = require("bcrypt");
 module.exports = {
   /**
@@ -27,6 +27,16 @@ module.exports = {
         return callBack(err, null);
       }
       return callBack(null, results);
+    });
+  },
+  createEmployee: (body, callback) => {
+    const salt = genSaltSync(10);
+    body.password = hashSync(body.password, salt);
+    createEmployee(body, (err, results) => {
+      if (err) {
+        return callback(err, null);
+      }
+      return callback(null, results);
     });
   },
   /**
