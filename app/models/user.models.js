@@ -6,18 +6,22 @@ module.exports = {
    * @param {*} callBack
    */
   create: (data, callBack) => {
-    pool.query(`insert into payrolltable(email, password) values(?,?)`, [data.email, data.password], (error, results, fields) => {
-      if (error) {
-        if (error.code === "ER_DUP_ENTRY") {
-          let err = "user already there";
-          return callBack(err, null);
+    pool.query(
+      `insert into payrolltable(email, password, firstName, lastName, designation, joningdate) values(?,?,?,?,?,?)`,
+      [data.email, data.password, data.firstName, data.lastName, data.designation, data.joningdate],
+      (error, results, fields) => {
+        if (error) {
+          if (error.code === "ER_DUP_ENTRY") {
+            let err = "user already there";
+            return callBack(err, null);
+          } else {
+            return callBack(error, null);
+          }
         } else {
-          return callBack(error, null);
+          return callBack(null, results);
         }
-      } else {
-        return callBack(null, results);
       }
-    });
+    );
   },
   /**
    * login check email
@@ -54,8 +58,8 @@ module.exports = {
    * getAllUsers
    * @param {*} callBack
    */
-  getAllUsers: (callBack) => {
-    pool.query(`select id,email from payrolltable`, [], (error, results, fields) => {
+  getAllEmployee: (callBack) => {
+    pool.query(`select id,email,firstName,lastName,designation,joningdate from payrolltable`, [], (error, results, fields) => {
       if (error) {
         callBack(error);
       }
@@ -67,13 +71,17 @@ module.exports = {
    * @param {*} id
    * @param {*} callBack
    */
-  getUserByUserId: (id, callBack) => {
-    pool.query(`select id,email from payrolltable where id = ?`, [id], (error, results, fields) => {
-      if (error) {
-        callBack(error);
+  getEmployeeById: (id, callBack) => {
+    pool.query(
+      `select id,email,firstName,lastName,designation,joningdate from payrolltable where id = ?`,
+      [id],
+      (error, results, fields) => {
+        if (error) {
+          callBack(error);
+        }
+        return callBack(null, results[0]);
       }
-      return callBack(null, results[0]);
-    });
+    );
   },
   /**
    * updateUser using id
@@ -82,8 +90,8 @@ module.exports = {
    */
   updateUser: (data, callBack) => {
     pool.query(
-      `update payrolltable set email=?, password=? where id = ?`,
-      [data.email, data.password, data.id],
+      `update payrolltable set email=?, password=?, firstName=?, lastName=?, designation=?, joningdate=? where id = ?`,
+      [data.email, data.password, data.firstName, data.lastName, data.designation, data.joningdate, data.id],
       (error, results, fields) => {
         if (error) {
           callBack(error);
@@ -97,7 +105,7 @@ module.exports = {
    * @param {*} data
    * @param {*} callBack
    */
-  deleteUser: (data, callBack) => {
+  deleteEmployeeById: (data, callBack) => {
     pool.query(`delete from payrolltable where id = ?`, [data.id], (error, results, fields) => {
       if (error) {
         callBack(error);

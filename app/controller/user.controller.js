@@ -1,10 +1,10 @@
 const {
   createUser,
   getEmail,
-  getUsers,
-  getUserByUserId,
+  getAllEmployee,
+  getEmployeeById,
   updateUser,
-  deleteUser,
+  deleteEmployeeById,
   createEmployee,
 } = require("../service/user.service");
 const { compareSync } = require("bcrypt");
@@ -87,8 +87,8 @@ module.exports = {
    * @param {*} req
    * @param {*} res
    */
-  getAllUsers: (req, res) => {
-    getUsers((err, results) => {
+  getAllEmployee: (req, res) => {
+    getAllEmployee((err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -104,9 +104,9 @@ module.exports = {
    * @param {*} req
    * @param {*} res
    */
-  getUserByUserId: (req, res) => {
+  getEmployeeById: (req, res) => {
     const id = req.params.id;
-    getUserByUserId(id, (err, results) => {
+    getEmployeeById(id, (err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -152,9 +152,9 @@ module.exports = {
    * @param {*} req
    * @param {*} res
    */
-  deleteUser: (req, res) => {
+  deleteEmployeeById: (req, res) => {
     const data = req.body;
-    deleteUser(data, (err, results) => {
+    deleteEmployeeById(data, (err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -167,7 +167,8 @@ module.exports = {
       }
       return res.json({
         success: 1,
-        message: "user deleted successfully",
+        message: "Employee deleted successfully",
+        results: results,
       });
     });
   },
