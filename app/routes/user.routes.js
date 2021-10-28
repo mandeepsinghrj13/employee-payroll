@@ -15,7 +15,7 @@ module.exports = (app) => {
   //post method using for login
   app.post("/login", login);
   //post method using for createEmployee
-  app.post("/cteateEmployee", checkToken, createEmployee);
+  app.post("/createEmployee", checkToken, createEmployee);
   //get method using for getall data
   app.get("/getall", checkToken, getAllEmployee);
   //get method using for getbyid
