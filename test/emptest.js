@@ -53,7 +53,7 @@ describe("registration api for positive and negative test case", () => {
   });
   it("GivenRegisterDetails_When_Email_DUP_ENTRY", (done) => {
     const createEmployee = {
-      email: "new@gmail.com",
+      email: "aatmaram@gmail.com",
       password: faker.internet.password(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
@@ -62,13 +62,13 @@ describe("registration api for positive and negative test case", () => {
     };
     chai
       .request(server)
-      .post("/createEmployee")
+      .post("/register")
       .send(createEmployee)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        res.should.have.status(401);
+        res.should.have.status(500);
         done();
       });
   });
@@ -86,6 +86,21 @@ describe("login for positive and negative ", () => {
         }
         res.should.have.status(200);
         res.body.should.have.property("success").eql(1);
+        done();
+      });
+  });
+  it("GivenLoginDetails_WhenProper_Login_Email_Not_InDatabase", (done) => {
+    const loginDetails = empInput.employee.Logindatabase;
+    chai
+      .request(server)
+      .post("/login")
+      .send(loginDetails)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        res.should.have.status(200);
+        res.body.should.have.property("success").eql(0);
         done();
       });
   });
@@ -139,6 +154,27 @@ describe("create employee api for positive and negative test case", () => {
           return done(err);
         }
         res.should.have.status(200);
+        done();
+      });
+  });
+  it("GivenCreateEmployeeDetails_When_Email_DUP_ENTRY", (done) => {
+    const createEmployee = {
+      email: "new@gmail.com",
+      password: faker.internet.password(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      designation: faker.lorem.word(),
+      joningdate: "2021-10-29",
+    };
+    chai
+      .request(server)
+      .post("/createEmployee")
+      .send(createEmployee)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        res.should.have.status(401);
         done();
       });
   });
