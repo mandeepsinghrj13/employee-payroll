@@ -264,7 +264,7 @@ describe("get employee by id api for positive and negative test case", () => {
         done();
       });
   });
-  it.only("GivenGetEmployeeByIdDetails_When_Employee_IdNotFound", (done) => {
+  it("GivenGetEmployeeByIdDetails_When_Employee_IdNotFound", (done) => {
     const token = empInput.employee.InvalidToken;
     const id = empInput.employee.GetId;
     chai
@@ -331,36 +331,51 @@ describe("update Employee by id api for positive and negative test case", () => 
   });
 });
 describe("delete Employee by id api for positive and negative test case", () => {
-  it.only("GivendeleteEmployeeByIdDetails_When_Employee_delete_Successfully", (done) => {
+  it.skip("GivendeleteEmployeeByIdDetails_When_Employee_delete_Successfully", (done) => {
     const token = empInput.employee.loginToken;
-    console.log("token", token);
-    let id = { id: 7 };
-    console.log("id", id);
+    let id = empInput.employee.DeleteId;
     chai
       .request(server)
-      .delete(`/delete/${id}`)
+      .delete(`/delete`)
       .set({ authorization: token })
+      .send(id)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        console.log("delete id", chai.delete);
         res.should.have.status(200);
         done();
       });
   });
   it("GivenDeleteEmployeeByIdDetails_When_login_Token_Expiered", (done) => {
     const token = empInput.employee.ExpireToken;
-    const id = empInput.employee.DeleteNotId;
+    const id = empInput.employee.DeleteId;
     chai
       .request(server)
-      .delete(`/delete/${id}`)
+      .delete(`/delete`)
       .set({ authorization: token })
+      .send(id)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        res.should.have.status(404);
+        res.should.have.status(401);
+        done();
+      });
+  });
+  it("GivenDeleteEmployeeByIdDetails_When_IdNotIn_Database", (done) => {
+    const token = empInput.employee.loginToken;
+    const id = empInput.employee.DeleteIdNot;
+    chai
+      .request(server)
+      .delete(`/delete`)
+      .set({ authorization: token })
+      .send(id)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        res.should.have.status(200);
         done();
       });
   });

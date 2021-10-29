@@ -16,8 +16,12 @@
         "password":"password1"
        },
        "GetId":  60,
-       "GetNotId":545
-       
-
+       "GetNotId":545,
+       "DeleteId":{
+           "id": 7
+       },
+       "DeleteIdNot":{
+           "id": 7
+       }
 }
 }
