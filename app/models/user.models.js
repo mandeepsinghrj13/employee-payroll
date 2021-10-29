@@ -5,7 +5,7 @@ module.exports = {
    * @param {*} data
    * @param {*} callBack
    */
-  create: (data, callBack) => {
+  registration: (data, callBack) => {
     pool.query(
       `insert into payrolltable(email, password, firstName, lastName, designation, joningdate) values(?,?,?,?,?,?)`,
       [data.email, data.password, data.firstName, data.lastName, data.designation, data.joningdate],

@@ -1,5 +1,5 @@
 const {
-  createUser,
+  registration,
   login,
   getAllEmployee,
   getEmployeeById,
@@ -11,7 +11,7 @@ const {
 const { checkToken } = require("../auth/token_validation");
 module.exports = (app) => {
   //post method using for register
-  app.post("/register", checkToken, createUser);
+  app.post("/register", registration);
   //post method using for login
   app.post("/login", login);
   //post method using for createEmployee

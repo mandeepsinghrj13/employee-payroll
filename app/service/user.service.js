@@ -1,5 +1,5 @@
 const {
-  create,
+  registration,
   login,
   getAllEmployee,
   getEmployeeById,
@@ -14,10 +14,10 @@ module.exports = {
    * @param {*} body
    * @param {*} callback
    */
-  createUser: (body, callback) => {
+  registration: (body, callback) => {
     const salt = genSaltSync(10);
     body.password = hashSync(body.password, salt);
-    create(body, (err, results) => {
+    registration(body, (err, results) => {
       if (err) {
         return callback(err, null);
       }

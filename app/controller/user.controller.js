@@ -1,5 +1,5 @@
 const {
-  createUser,
+  registration,
   getEmail,
   getAllEmployee,
   getEmployeeById,
@@ -15,9 +15,9 @@ module.exports = {
    * @param {*} req
    * @param {*} res
    */
-  createUser: (req, res) => {
+  registration: (req, res) => {
     const body = req.body;
-    createUser(body, (err, results) => {
+    registration(body, (err, results) => {
       if (err) {
         console.log(err);
         return res.status(500).json({
@@ -50,7 +50,7 @@ module.exports = {
       }
       const result = compareSync(body.password, results.password);
       if (result) {
-        const jsontoken = sign({ result: results }, process.env.TOCKEN, {
+        const jsontoken = sign({ result: results }, process.env.SECRET_KEY, {
           expiresIn: "2h",
         });
         return res.json({

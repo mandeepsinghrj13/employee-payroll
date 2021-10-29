@@ -1,0 +1,88 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "EmployeePayroll",
+        "description": "This app is build for EmployeePayroll",
+        "license" : {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }        
+    },
+    "host": "localhost:3000",
+    "tags": [
+        {
+            "name": "EmployeePayroll",
+            "description": "API for registration"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "tags": ["registration"],
+                "description": "Create new registration",
+                "parameters": [
+                    {
+                        "name": "registration",
+                        "in": "body",
+                        "description": "Create new registration",
+                        "schema": { 
+                            "$ref": "#/definitions/registration"
+                        }
+                    }
+                ],
+
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "registration successfully"
+                    },
+                    "500": {
+                        "description": "server-error or alredy exist"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "registration": {        
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "designation": {
+                    "type": "string"
+                },
+                "joningdate": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "email":"test@gmail.com",
+                "password": "password",
+                "firstName":"firstname",
+                "lastName":"lastname",
+                "designation":"developer",
+                "joningdate":"2021-10-28"
+            }
+        }
+    }
+} 
