@@ -3,12 +3,13 @@ const chaiHttp = require("chai-http");
 const server = require("../server");
 const faker = require("faker");
 const empInput = require("./emptest.json");
+const { date } = require("faker");
 
 chai.use(chaiHttp);
 chai.should();
 
 describe("registration api for positive and negative test case", () => {
-  it.only("GivenRegistrationDetails_When_Created_Successfully", (done) => {
+  it("GivenRegistrationDetails_When_Created_Successfully", (done) => {
     const createEmployee = {
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -29,35 +30,35 @@ describe("registration api for positive and negative test case", () => {
         done();
       });
   });
-  it.only("GivenEmployeeDetails_When_Access_Denied!_Unauthorized_User", (done) => {
+  it("GivenRegistrationDetails_When_Date_Invalid", (done) => {
     const createEmployee = {
       email: faker.internet.email(),
       password: faker.internet.password(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       designation: faker.lorem.word(),
-      joningdate: faker.date.past(),
+      joningdate: date,
     };
     chai
       .request(server)
-      .post("/createEmployee")
+      .post("/register")
       .send(createEmployee)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        res.should.have.status(200);
+        res.should.have.status(500);
         done();
       });
   });
-  it.only("GivenEmployeeDetails_When_Invalid_Token", (done) => {
+  it("GivenRegisterDetails_When_Email_DUP_ENTRY", (done) => {
     const createEmployee = {
-      email: faker.internet.email(),
+      email: "new@gmail.com",
       password: faker.internet.password(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       designation: faker.lorem.word(),
-      joningdate: faker.date.past(),
+      joningdate: "2021-10-29",
     };
     chai
       .request(server)
@@ -67,13 +68,13 @@ describe("registration api for positive and negative test case", () => {
         if (err) {
           return done(err);
         }
-        res.should.have.status(200);
+        res.should.have.status(401);
         done();
       });
   });
 });
 describe("login for positive and negative ", () => {
-  it.only("GivenLoginDetails_WhenProper_UserLogin_Successfully", (done) => {
+  it("GivenLoginDetails_WhenProper_UserLogin_Successfully", (done) => {
     const loginDetails = empInput.employee.Login;
     chai
       .request(server)
@@ -88,7 +89,7 @@ describe("login for positive and negative ", () => {
         done();
       });
   });
-  it.only("GivenLoginDetails_WhenProper_Login_Invalid", (done) => {
+  it("GivenLoginDetails_WhenProper_Login_Invalid", (done) => {
     const loginDetails = empInput.employee.LoginInvalid;
     chai
       .request(server)
@@ -102,7 +103,7 @@ describe("login for positive and negative ", () => {
         done();
       });
   });
-  it.only("GivenLoginDetails_WhenProper_Email_Invalid", (done) => {
+  it("GivenLoginDetails_WhenProper_Email_Invalid", (done) => {
     const loginDetails = empInput.employee.EmailInvalid;
     chai
       .request(server)
@@ -117,22 +118,84 @@ describe("login for positive and negative ", () => {
       });
   });
 });
-describe("get all employee api for positive and negative test case", () => {
-  it("GivenGetAllEMployeeDetails_When_GetAllEmployee_Successfully", (done) => {
+describe("create employee api for positive and negative test case", () => {
+  it("GivenCreateEmployeeDetails_When_Created_Successfully", (done) => {
     const token = empInput.employee.loginToken;
-    const getAllEmployee = {
+    const createEmployee = {
       email: faker.internet.email(),
       password: faker.internet.password(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       designation: faker.lorem.word(),
-      joningdate: faker.date.past(),
+      joningdate: "2021-10-29",
     };
+    chai
+      .request(server)
+      .post("/createEmployee")
+      .set({ authorization: token })
+      .send(createEmployee)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        res.should.have.status(200);
+        done();
+      });
+  });
+  it("GivenCreateEmployeeDetails_When_Access_Denied!_Unauthorized_User", (done) => {
+    const token = empInput.employee.ExpireToken;
+    const createEmployee = {
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      designation: faker.lorem.word(),
+      joningdate: "2021-10-29",
+    };
+    chai
+      .request(server)
+      .post("/createEmployee")
+      .set({ authorization: token })
+      .send(createEmployee)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        res.should.have.status(401);
+        done();
+      });
+  });
+  it("GivenCreateEmployeeDetails_When_Invalid_Token", (done) => {
+    const token = empInput.employee.InvalidToken;
+    const createEmployee = {
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      designation: faker.lorem.word(),
+      joningdate: "2021-10-29",
+    };
+    chai
+      .request(server)
+      .post("/createEmployee")
+      .set({ authorization: token })
+      .send(createEmployee)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        res.should.have.status(401);
+        done();
+      });
+  });
+});
+describe("get all employee api for positive and negative test case", () => {
+  it("GivenGetAllEMployeeDetails_When_GetAllEmployee_Successfully", (done) => {
+    const token = empInput.employee.loginToken;
     chai
       .request(server)
       .get("/getall")
       .set({ authorization: token })
-      .send(getAllEmployee)
       .end((err, res) => {
         if (err) {
           return done(err);
@@ -143,47 +206,29 @@ describe("get all employee api for positive and negative test case", () => {
   });
   it("GivenGetAllEMployeeDetails_When_Expire_Token", (done) => {
     const token = empInput.employee.ExpireToken;
-    const getAllEmployee = {
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      designation: faker.lorem.word(),
-      joningdate: faker.date.past(),
-    };
     chai
       .request(server)
       .get("/getall")
       .set({ authorization: token })
-      .send(getAllEmployee)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        res.should.have.status(200);
+        res.should.have.status(401);
         done();
       });
   });
   it("GivenGetAllEMployeeDetails_When_Invalid_Token", (done) => {
     const token = empInput.employee.InvalidToken;
-    const getAllEmployee = {
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      designation: faker.lorem.word(),
-      joningdate: faker.date.past(),
-    };
     chai
       .request(server)
       .get("/getall")
       .set({ authorization: token })
-      .send(getAllEmployee)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        res.should.have.status(200);
+        res.should.have.status(401);
         done();
       });
   });
@@ -219,61 +264,78 @@ describe("get employee by id api for positive and negative test case", () => {
         done();
       });
   });
+  it.only("GivenGetEmployeeByIdDetails_When_Employee_IdNotFound", (done) => {
+    const token = empInput.employee.InvalidToken;
+    const id = empInput.employee.GetId;
+    chai
+      .request(server)
+      .get(`/getbyid/${id}`)
+      .set({ authorization: token })
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        res.should.have.status(401);
+        done();
+      });
+  });
 });
 describe("update Employee by id api for positive and negative test case", () => {
   it("GivenUpdateEmployeeByIdDetails_When_Employee_Update_Successfully", (done) => {
     const token = empInput.employee.loginToken;
-    const id = empInput.employee.UpdateById;
     const updateEmployee = {
+      id: 46,
       email: faker.internet.email(),
       password: faker.internet.password(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       designation: faker.lorem.word(),
-      joningdate: faker.date.past(),
+      joningdate: "2021-10-29",
     };
     chai
       .request(server)
-      .put(`/update/${id}`)
+      .put(`/update`)
       .set({ authorization: token })
       .send(updateEmployee)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        res.should.have.status(404);
+        res.should.have.status(200);
         done();
       });
   });
-  it("GivenUpdateEmployeeByIdDetails_When_Employee_Token_Expiered", (done) => {
-    const token = empInput.employee.ExpireToken;
-    const id = empInput.employee.UpdateById;
+  it("GivenUpdateEmployeeByIdDetails_When_Employee_Email_Duplicate", (done) => {
+    const token = empInput.employee.loginToken;
     const createLabel = {
-      email: faker.internet.email(),
+      id: 46,
+      email: "new@gmail.com",
       password: faker.internet.password(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       designation: faker.lorem.word(),
-      joningdate: faker.date.past(),
+      joningdate: "2021-10-22",
     };
     chai
       .request(server)
-      .put(`/update/${id}`)
+      .put(`/update`)
       .set({ authorization: token })
       .send(createLabel)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        res.should.have.status(404);
+        res.should.have.status(200);
         done();
       });
   });
 });
 describe("delete Employee by id api for positive and negative test case", () => {
-  it("GivendeleteEmployeeByIdDetails_When_Employee_delete_Successfully", (done) => {
+  it.only("GivendeleteEmployeeByIdDetails_When_Employee_delete_Successfully", (done) => {
     const token = empInput.employee.loginToken;
-    const id = empInput.employee.DeleteNotId;
+    console.log("token", token);
+    let id = { id: 7 };
+    console.log("id", id);
     chai
       .request(server)
       .delete(`/delete/${id}`)
@@ -282,7 +344,8 @@ describe("delete Employee by id api for positive and negative test case", () => 
         if (err) {
           return done(err);
         }
-        res.should.have.status(404);
+        console.log("delete id", chai.delete);
+        res.should.have.status(200);
         done();
       });
   });

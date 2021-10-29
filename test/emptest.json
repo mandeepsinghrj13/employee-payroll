@@ -1,6 +1,6 @@
 {
     "employee": {
-       "loginToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsiaWQiOjQyLCJlbWFpbCI6Im5ld0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRqMi4uRlliY2JsdWZoWDF4NlpNYXJlWGtreWx1aWxPajROeVFoZS9nSmlxZ3pqazJqNXFnTyIsImZpcnN0TmFtZSI6ImZpcnN0bmFtZTEiLCJsYXN0TmFtZSI6Imxhc3RuYW1lMSIsImRlc2lnbmF0aW9uIjoicG9zdDEiLCJqb25pbmdkYXRlIjoiMjAyMS0xMC0yMVQxODozMDowMC4wMDBaIn0sImlhdCI6MTYzNTQ3NzAxOSwiZXhwIjoxNjM1NDg0MjE5fQ.S7_AS2ENSu3vmYxjGetU-DoXelHIO96MkSLkMJxTsSQ",
+       "loginToken": "b eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzU1MDQ4ODgsImV4cCI6MTYzNTY3NzY4OH0.X7_zzrpzAdHJGCQNEzbECnpgmTDEhe_9Tkb7tB7IIFo",
        "ExpireToken":"",
        "InvalidToken" :"sdhjskgjhsgdjhsgdhjsgd.354jdfhgjsgdfhdgf4fgegf4u7yfghjdfvghdsjgfuyegfyu43fg.sdgfgdfyuewgdfhsjdgvfyue3rteyugdyuewtryeuwtruywt35t36t",
        "Login": {
@@ -15,10 +15,9 @@
         "email":"",
         "password":"password1"
        },
-       "GetId":  46,
-       "GetNotId":545,
-       "UpdateById":46,
-       "DeleteNotId":5
+       "GetId":  60,
+       "GetNotId":545
+       
 
 }
 }

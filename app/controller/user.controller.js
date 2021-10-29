@@ -8,7 +8,7 @@ const {
   createEmployee,
 } = require("../service/user.service");
 const { compareSync } = require("bcrypt");
-const { sign } = require("jsonwebtoken");
+const helper = require("../Utility/helper.js");
 module.exports = {
   /**
    * create user for emp-payroll
@@ -50,13 +50,11 @@ module.exports = {
       }
       const result = compareSync(body.password, results.password);
       if (result) {
-        const jsontoken = sign({ result: results }, process.env.SECRET_KEY, {
-          expiresIn: "2h",
-        });
+        const token = helper.jwtTokenGenerate({ result: results }, process.env.SECRET_KEY);
         return res.json({
           success: 1,
           message: "login successfully",
-          token: jsontoken,
+          token: token,
         });
       } else {
         return res.json({
