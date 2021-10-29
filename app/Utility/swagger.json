@@ -192,6 +192,46 @@
                     }
                 }
             }
+        },
+        "/update": {
+            "put": {
+                "tags": [
+                    "Update Employee By Id"
+                ],
+                "description": "put employee by ID",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Token for vaidation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "update employee",
+                        "in": "body",
+                        "description": "employee body",
+                        "schema": {
+                            "$ref": "#/definitions/updateemployee"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Employee Updated Successfully or Duplicate Email"
+                    },
+                    "401": {
+                        "description": "Your token has expiered Or Enter Valid Token"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -263,6 +303,41 @@
                 }
             },
             "example": {
+                "email":"test@gmail.com",
+                "password": "password",
+                "firstName":"firstname",
+                "lastName":"lastname",
+                "designation":"developer",
+                "joningdate":"2021-10-28"
+            }
+        },
+        "updateemployee": {
+            "type": "object",
+            "properties": {
+                "id":{
+                    "type":"string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "designation": {
+                    "type": "string"
+                },
+                "joningdate": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "id":"52",
                 "email":"test@gmail.com",
                 "password": "password",
                 "firstName":"firstname",
