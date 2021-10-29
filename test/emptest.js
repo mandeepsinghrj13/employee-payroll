@@ -7,21 +7,19 @@ const empInput = require("./emptest.json");
 chai.use(chaiHttp);
 chai.should();
 
-describe("create employee api for positive and negative test case", () => {
-  it("GivenEmployeeDetails_When_Created_Successfully", (done) => {
-    const token = empInput.employee.loginToken;
+describe("registration api for positive and negative test case", () => {
+  it.only("GivenRegistrationDetails_When_Created_Successfully", (done) => {
     const createEmployee = {
       email: faker.internet.email(),
       password: faker.internet.password(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       designation: faker.lorem.word(),
-      joningdate: "2021-10-28",
+      joningdate: "2021-10-29",
     };
     chai
       .request(server)
-      .post("/createEmployee")
-      .set({ authorization: token })
+      .post("/register")
       .send(createEmployee)
       .end((err, res) => {
         if (err) {
@@ -31,8 +29,7 @@ describe("create employee api for positive and negative test case", () => {
         done();
       });
   });
-  it("GivenEmployeeDetails_When_Access_Denied!_Unauthorized_User", (done) => {
-    const token = empInput.employee.ExpireToken;
+  it.only("GivenEmployeeDetails_When_Access_Denied!_Unauthorized_User", (done) => {
     const createEmployee = {
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -44,7 +41,6 @@ describe("create employee api for positive and negative test case", () => {
     chai
       .request(server)
       .post("/createEmployee")
-      .set({ authorization: token })
       .send(createEmployee)
       .end((err, res) => {
         if (err) {
@@ -54,8 +50,7 @@ describe("create employee api for positive and negative test case", () => {
         done();
       });
   });
-  it("GivenEmployeeDetails_When_Invalid_Token", (done) => {
-    const token = empInput.employee.InvalidToken;
+  it.only("GivenEmployeeDetails_When_Invalid_Token", (done) => {
     const createEmployee = {
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -67,7 +62,6 @@ describe("create employee api for positive and negative test case", () => {
     chai
       .request(server)
       .post("/createEmployee")
-      .set({ authorization: token })
       .send(createEmployee)
       .end((err, res) => {
         if (err) {
@@ -79,7 +73,7 @@ describe("create employee api for positive and negative test case", () => {
   });
 });
 describe("login for positive and negative ", () => {
-  it("GivenLoginDetails_WhenProper_UserLogin_Successfully", (done) => {
+  it.only("GivenLoginDetails_WhenProper_UserLogin_Successfully", (done) => {
     const loginDetails = empInput.employee.Login;
     chai
       .request(server)
@@ -94,7 +88,7 @@ describe("login for positive and negative ", () => {
         done();
       });
   });
-  it("GivenLoginDetails_WhenProper_Login_Invalid", (done) => {
+  it.only("GivenLoginDetails_WhenProper_Login_Invalid", (done) => {
     const loginDetails = empInput.employee.LoginInvalid;
     chai
       .request(server)
@@ -108,7 +102,7 @@ describe("login for positive and negative ", () => {
         done();
       });
   });
-  it("GivenLoginDetails_WhenProper_Email_Invalid", (done) => {
+  it.only("GivenLoginDetails_WhenProper_Email_Invalid", (done) => {
     const loginDetails = empInput.employee.EmailInvalid;
     chai
       .request(server)
