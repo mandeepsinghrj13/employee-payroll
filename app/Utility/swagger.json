@@ -118,6 +118,40 @@
                     }
                 }
             }
+        },
+        "/getall": {
+            "get": {
+                "tags": [
+                    "Get All Employee"
+                ],
+                "description": "Get all Employee",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Token for vaidation",
+                        "schema": {
+                            "type": "string"
+                            
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                
+                "responses": {
+                    "200": {
+                        "description": "Get All Employee Successfully"
+                    },
+                    "401": {
+                        "description": "Your token has expiered Or Enter Valid Token"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     },
     "definitions": {
