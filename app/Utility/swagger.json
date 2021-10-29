@@ -74,6 +74,50 @@
                     }
                 }
             }
+        },
+        "/createEmployee": {
+            "post": {
+                "tags": [
+                    "Create Employee"
+                ],
+                "description": "Creating a employee",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Token for vaidation",
+                        "schema": {
+                            "type": "string"
+                           
+                        }
+                    },
+                    {
+                        "name": "create employee",
+                        "in": "body",
+                        "description": "employee body",
+                        "schema": {
+                            "$ref": "#/definitions/employee"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "schema": {
+                    "$ref": "#/definitions/employee"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Employee Created Successfully"
+                    },
+                    "401": {
+                        "description": "Your token has expiered"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -120,6 +164,37 @@
             "example": {
                 "email":"new@gmail.com",
                 "password":"password1"
+            }
+        },
+        "employee": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "designation": {
+                    "type": "string"
+                },
+                "joningdate": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "email":"test@gmail.com",
+                "password": "password",
+                "firstName":"firstname",
+                "lastName":"lastname",
+                "designation":"developer",
+                "joningdate":"2021-10-28"
             }
         }
     }
