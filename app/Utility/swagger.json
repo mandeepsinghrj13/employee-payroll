@@ -51,6 +51,29 @@
                     }
                 }
             }
+        },
+        "/login": {
+            "post": {
+                "tags": ["Login"],
+                "description": "Login Employee",
+                "parameters": [
+                    {
+                        "name": "Login",
+                        "in": "body",
+                        "description": "Employee want to login",
+                        "schema": {
+                            "$ref": "#/definitions/loginemployeepayroll"
+                        }
+                    }
+                ],
+    
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "ok or Invalid email or password"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -82,6 +105,21 @@
                 "lastName":"lastname",
                 "designation":"developer",
                 "joningdate":"2021-10-28"
+            }
+        },
+        "loginemployeepayroll": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "email":"new@gmail.com",
+                "password":"password1"
             }
         }
     }
